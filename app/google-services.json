@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "511317976169",
+    "project_id": "scenespot-version2",
+    "storage_bucket": "scenespot-version2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511317976169:android:adeafb4eebe4f8a9a2aef8",
+        "android_client_info": {
+          "package_name": "com.example.scenespotnersion2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLSOC4hSHLA_IJA_uGShR0gC9OVGeBEIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
