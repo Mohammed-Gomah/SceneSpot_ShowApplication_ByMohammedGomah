@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_1"
+    android:orientation="vertical"
+    tools:context=".intro.SecondIntroFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/intro_curve"
+            android:clipToOutline="true"
+            android:contentDescription="@string/intro_1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/intro_2"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="s" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/intro_start_shape"
+            android:backgroundTint="@color/gray" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/orange" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/intro_end_shape"
+            android:backgroundTint="@color/gray" />
+    </LinearLayout>
+
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="93dp"
+        android:text="✨ Discover. Watch. Enjoy. 🎬"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="62dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/intro_btn_continue"
+        android:text="Continue"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@null" />
+
+
+</LinearLayout>

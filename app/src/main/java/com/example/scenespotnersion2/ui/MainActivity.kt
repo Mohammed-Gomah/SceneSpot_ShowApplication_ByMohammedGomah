@@ -1,8 +1,9 @@
-package com.example.scenespotnersion2
+package com.example.scenespotnersion2.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.scenespotnersion2.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
