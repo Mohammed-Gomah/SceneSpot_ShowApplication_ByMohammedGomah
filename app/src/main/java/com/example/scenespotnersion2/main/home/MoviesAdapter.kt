@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.remote.data.MovieResponse
+import com.example.scenespotnersion2.remote.data.Result
 
-class MoviesAdapter(private var movieList: List<MovieResponse?>) :
+class MoviesAdapter(private var movieList: List<Result?>) :
     RecyclerView.Adapter<MoviesAdapter.ItemViewHolder>() {
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val movieImage: ImageView = itemView.findViewById(R.id.ivMovieItemImage)
@@ -28,13 +29,14 @@ class MoviesAdapter(private var movieList: List<MovieResponse?>) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val movie = movieList[position]
-        holder.movieRating.text = movie?.rating.toString()
+        "IMDB ${movie?.rating.toString()}".also { holder.movieRating.text = it }
         Glide.with(holder.itemView.context)
             .load(movie?.banner)
+            .centerCrop()
             .into(holder.movieImage)
     }
 
-    fun setMovies(newMovieList: List<MovieResponse?>){
+    fun setMovies(newMovieList: List<Result?>){
         movieList = newMovieList
         notifyDataSetChanged()
     }

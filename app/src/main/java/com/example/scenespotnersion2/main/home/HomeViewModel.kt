@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.scenespotnersion2.remote.data.MovieResponse
+import com.example.scenespotnersion2.remote.data.Result
 import com.example.scenespotnersion2.remote.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,51 +17,54 @@ import kotlinx.coroutines.launch
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = MainRepository()
 
-    private var _movies = MutableLiveData<List<MovieResponse?>>()
-    val movies: LiveData<List<MovieResponse?>> = _movies
+    private var _movies = MutableLiveData<List<Result?>>()
+    val movies: LiveData<List<Result?>> = _movies
 
 
-    fun getMoviesOrderedByPopularity() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+    fun fetchAllMoviesIMDB() {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
                 val response = repository.apiService.getMoviesOrderedByPopularity()
                 if (response.isSuccessful) {
-                    val moviesList = response.body()?.movieResponse ?: emptyList()
-                    Log.e("HomeViewModel", "Movies List: $moviesList")
+                    val moviesList = response.body()?.results ?: emptyList()
 
-                    val updatedMovies = moviesList.map { movie ->
+                    val updateMovieList = moviesList.map { movie ->
                         async {
-                            val imageUrl = movie.imdbId?.let { getMovieById(it) }
-                            movie.copy(imageUrl = imageUrl)
+                            val deferredMoviePoster =
+                                async { movie?.imdbId?.let { getMoviesByIMDB(it) } }.await()
+                            val deferredMovieIMDB =
+                                async { movie?.imdbId?.let { getMoviesByIMDB(it) } }.await()
+                            movie?.copy(
+                                rating = deferredMovieIMDB?.rating,
+                                banner = deferredMoviePoster?.banner
+                            )
                         }
                     }.awaitAll()
-
-                    Log.e("HomeViewModel", "Updated Movies: $updatedMovies")
-                    _movies.postValue(updatedMovies)
+                    _movies.postValue(updateMovieList.take(4))
                 } else {
-                    Log.e("HomeViewModel", "Error: ${response.errorBody()?.string()}")
-                    _movies.postValue(emptyList())
+                    Log.e(TAG, "fetchAllMoviesIMDB: $response")
                 }
-            } catch (e: Exception) {
-                Log.e("HomeViewModel", "Exception: ${e.message}")
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 
-    private suspend fun getMovieById(movieId: String): String? {
+    private suspend fun getMoviesByIMDB(imdb: String): MovieResponse? {
         return try {
-            val response = repository.apiService.getMovieById(movieId)
+            val response = repository.apiService.getMovieById(imdb)
             if (response.isSuccessful) {
-                val movie = response.body()?.movieResponse?.firstOrNull()
-                Log.e("getMovieById", "Movie Found: $movie")
-                movie?.imdbId
+                response.body()?.movieResponse
             } else {
-                Log.e("getMovieById", "Failed Response: ${response.errorBody()?.string()}")
                 null
             }
         } catch (e: Exception) {
-            Log.e("getMovieById", "Exception: ${e.message}")
             null
         }
+    }
+
+    companion object {
+        private const val TAG = "HomeViewModel"
     }
 }

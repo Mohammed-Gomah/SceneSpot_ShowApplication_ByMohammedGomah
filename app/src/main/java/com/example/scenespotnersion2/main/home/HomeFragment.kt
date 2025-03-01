@@ -36,10 +36,9 @@ class HomeFragment : Fragment() {
         binding.pbMovies.visibility = View.VISIBLE
         homeViewModel.movies.observe(viewLifecycleOwner) { movies ->
             binding.pbMovies.visibility = View.GONE
-            Log.e("HomeFragment", "setupData: $movies", )
             moviesAdapter.setMovies(movies)
         }
-        homeViewModel.getMoviesOrderedByPopularity()
+        homeViewModel.fetchAllMoviesIMDB()
     }
 
     private fun setupAdapters() {
