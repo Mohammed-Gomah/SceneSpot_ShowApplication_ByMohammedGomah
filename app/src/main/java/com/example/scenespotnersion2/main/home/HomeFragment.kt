@@ -1,7 +1,6 @@
 package com.example.scenespotnersion2.main.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var moviesAdapter: MoviesAdapter
+    private lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var seriesDescriptionAdapter: SeriesDescriptionAdapter
 
 
     override fun onCreateView(
@@ -39,16 +40,46 @@ class HomeFragment : Fragment() {
             moviesAdapter.setMovies(movies)
         }
         homeViewModel.fetchAllMoviesIMDB()
+
+        binding.pbSeries.visibility = View.VISIBLE
+        homeViewModel.series.observe(viewLifecycleOwner) { series ->
+            binding.pbSeries.visibility = View.GONE
+            seriesAdapter.setSeries(series)
+        }
+        homeViewModel.fetchAllSeries()
+
+        binding.pbDescription.visibility = View.VISIBLE
+        homeViewModel.seriesDescription.observe(viewLifecycleOwner){series->
+            binding.pbDescription.visibility = View.GONE
+            seriesDescriptionAdapter.setSeries(series)
+        }
+        homeViewModel.fetchAllSeriesWithDescription()
     }
 
     private fun setupAdapters() {
         moviesAdapter = MoviesAdapter(emptyList())
-        val layoutManager =
+        val moviesLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMovies.apply {
-            this.layoutManager = layoutManager
+            this.layoutManager = moviesLayoutManager
             adapter = moviesAdapter
         }
+
+        seriesAdapter = SeriesAdapter(emptyList())
+        val seriesLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSeries.apply {
+            this.layoutManager = seriesLayoutManager
+            adapter = seriesAdapter
+        }
+
+        seriesDescriptionAdapter = SeriesDescriptionAdapter(emptyList())
+        val seriesDescriptionLayoutManager = LinearLayoutManager(requireContext())
+        binding.rvDescription.apply {
+            this.layoutManager = seriesDescriptionLayoutManager
+            adapter = seriesDescriptionAdapter
+        }
+
     }
 
     override fun onDestroyView() {

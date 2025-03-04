@@ -27,6 +27,7 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
+        android:id="@+id/ivFavouriteToggle"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:elevation="2dp"

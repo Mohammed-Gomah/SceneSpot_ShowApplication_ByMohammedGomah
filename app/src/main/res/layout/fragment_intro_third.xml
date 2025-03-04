@@ -19,7 +19,7 @@
             android:clipToOutline="true"
             android:contentDescription="@string/intro_1"
             android:scaleType="centerCrop"
-            android:src="@drawable/intro_2"
+            android:src="@drawable/intro_3"
             app:layout_constraintTop_toTopOf="parent"
             tools:targetApi="s" />
 
