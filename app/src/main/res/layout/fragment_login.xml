@@ -157,7 +157,7 @@
                 android:background="@drawable/et_bg"
                 android:drawableLeft="@drawable/gmail_ic"
                 android:paddingHorizontal="42dp"
-                android:text="continue with facebook"
+                android:text="continue with gmail"
                 android:textSize="14sp"
                 app:backgroundTint="@null" />
 
