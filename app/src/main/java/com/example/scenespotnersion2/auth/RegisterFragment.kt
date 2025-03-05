@@ -39,7 +39,7 @@ class RegisterFragment : Fragment() {
         binding.btnRegister.setOnClickListener {
             val email = binding.etRegisterEmail.text.toString().trim()
             val password = binding.etRegisterPassword.text.toString()
-            if (email.isEmpty() && password.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "fill all fields", Toast.LENGTH_SHORT).show()
             } else {
                 authViewModel.register(email, password)

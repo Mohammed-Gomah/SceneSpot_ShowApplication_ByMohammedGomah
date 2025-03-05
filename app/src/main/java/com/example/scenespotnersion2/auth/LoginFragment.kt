@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etLoginEmail.text.toString().trim()
             val password = binding.etLoginPassword.text.toString()
-            if (email.isEmpty() && password.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "fill all fields", Toast.LENGTH_SHORT).show()
             } else {
                 authViewModel.login(email, password)
