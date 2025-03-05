@@ -9,12 +9,35 @@
         android:id="@+id/loginFragment"
         android:name="com.example.scenespotnersion2.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_sendResetPasswordFragment"
+            app:destination="@id/sendResetPasswordFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.scenespotnersion2.auth.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/resetPasswordFragment"
         android:name="com.example.scenespotnersion2.auth.ResetPasswordFragment"
@@ -24,5 +47,26 @@
         android:id="@+id/setUsernameFragment"
         android:name="com.example.scenespotnersion2.auth.SetUsernameFragment"
         android:label="fragment_set_username"
-        tools:layout="@layout/fragment_set_username" />
+        tools:layout="@layout/fragment_set_username" >
+        <action
+            android:id="@+id/action_setUsernameFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendResetPasswordFragment"
+        android:name="com.example.scenespotnersion2.auth.SendResetPasswordFragment"
+        android:label="fragment_send_reset_password"
+        tools:layout="@layout/fragment_send_reset_password" >
+        <action
+            android:id="@+id/action_sendResetPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
 </navigation>

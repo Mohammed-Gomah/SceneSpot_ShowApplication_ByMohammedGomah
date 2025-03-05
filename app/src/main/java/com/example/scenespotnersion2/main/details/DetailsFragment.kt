@@ -34,15 +34,6 @@ class DetailsFragment : Fragment() {
             mediaPlaybackRequiresUserGesture = false // لتشغيل الفيديو تلقائيًا بدون تفاعل المستخدم
         }
 
-        binding.wvDetailsTrailer.webChromeClient = object : WebChromeClient() {
-            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
-                super.onShowCustomView(view, callback)
-                // يمكنك إضافة كود هنا لدعم ملء الشاشة إذا احتجت ذلك
-            }
-        }
-        val videoId = "L_CV2tgpz68" // استبدل بـ ID الفيديو المطلوب
-        val embedHtml = """
-vDetailsTrailer.loadData(embedHtml, "text/html", "utf-8")
     }
 
 

@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.SceneSpotNersion2" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-         <item name="colorPrimary">@color/black4</item>
-         <item name="android:navigationBarColor">@color/black2</item>
-         <item name="android:statusBarColor">@color/orangeRed2</item>
+        <item name="colorPrimary">@color/black4</item>
+        <item name="android:navigationBarColor">@color/black2</item>
+        <item name="android:statusBarColor">@color/orangeRed2</item>
     </style>
 </resources>
