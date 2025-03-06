@@ -1,6 +1,9 @@
 package com.example.scenespotnersion2.auth
 
 import android.app.Application
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +11,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val auth = FirebaseAuth.getInstance()
+    private val firebaseRef = FirebaseDatabase.getInstance().getReference("users")
+    private val storageRef = FirebaseStorage.getInstance().getReference("images").child(System.currentTimeMillis().toString())
 
     private val _authState = MutableLiveData<FirebaseUser?>()
     val authState: LiveData<FirebaseUser?> get() = _authState
@@ -33,9 +41,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     if (user?.isEmailVerified == true) {
                         _authState.value = user
                     } else {
-                        _errorMessage.value = "يرجى تأكيد بريدك الإلكتروني أولًا."
-                        user?.sendEmailVerification() // إعادة إرسال التحقق
-                        auth.signOut() // تسجيل خروج حتى لا يتم الدخول بدون تحقق
+                        _errorMessage.value = "Please verify your email before logging in."
+                        auth.signOut()
                     }
                 } else {
                     _errorMessage.value = task.exception?.message
@@ -48,9 +55,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    user?.sendEmailVerification()
-                    _authState.value = user
-                    _errorMessage.value = "Registered Successfully , check your email"
+                    user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                        if (verificationTask.isSuccessful) {
+                            _errorMessage.value = "Registered Successfully, check your email for verification."
+                        } else {
+                            _errorMessage.value = "Registration successful, but failed to send verification email."
+                        }
+                    }
                 } else {
                     if (task.exception is FirebaseAuthUserCollisionException) {
                         _errorMessage.value = "Already Registered"
@@ -84,6 +95,56 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
     }
+
+    fun uploadProfilePictureToFirebase(imageUri: Uri) {
+        val user = auth.currentUser ?: return
+        val storageRef = FirebaseStorage.getInstance().getReference("images").child(user.uid + "_" + System.currentTimeMillis())
+
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener { task ->
+                task.metadata!!.reference!!.downloadUrl
+                    .addOnSuccessListener { uri ->
+                        val photoUrl = uri.toString()
+
+                        // ✅ استدعاء updateProfilePicture لحفظ الصورة في FirebaseAuth + Realtime Database
+                        updateProfilePicture(photoUrl)
+
+                        Toast.makeText(getApplication(), "✅ تم حفظ الصورة بنجاح!", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(getApplication(), "❌ فشل الحصول على الرابط: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(getApplication(), "❌ فشل رفع الصورة: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
+
+
+
+
+
+
+
+    private fun updateProfilePicture(photoUrl: String) {
+        val user = auth.currentUser ?: return
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setPhotoUri(Uri.parse(photoUrl))
+            .build()
+
+        user.updateProfile(profileUpdates)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    firebaseRef.child(user.uid).child("photoUrl").setValue(photoUrl)
+                } else {
+                    _errorMessage.value = task.exception?.message
+                }
+            }
+    }
+
 
     fun logout() {
         auth.signOut()

@@ -1,5 +1,6 @@
 package com.example.scenespotnersion2.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.scenespotnersion2.databinding.FragmentSetUsernameBinding
+import com.example.scenespotnersion2.ui.MainActivity
 
 
 class SetUsernameFragment : Fragment() {
@@ -38,6 +40,9 @@ class SetUsernameFragment : Fragment() {
                 authViewModel.setUsername(username)
                 Toast.makeText(requireContext(), "username set successfully", Toast.LENGTH_SHORT)
                     .show()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
             }
         }
     }

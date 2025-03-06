@@ -24,6 +24,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_loginFragment_to_setUsernameFragment"
+            app:destination="@id/setUsernameFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
