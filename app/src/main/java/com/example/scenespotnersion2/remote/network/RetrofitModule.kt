@@ -3,6 +3,7 @@ package com.example.scenespotnersion2.remote.network
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitModule {
 
@@ -11,7 +12,10 @@ object RetrofitModule {
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(ApiInterceptor()) // إضافة الـ Interceptor
-        .build()
+        .connectTimeout(30, TimeUnit.SECONDS)  // مهلة الاتصال
+        .readTimeout(30, TimeUnit.SECONDS)     // مهلة القراءة
+        .writeTimeout(30, TimeUnit.SECONDS)    // مهلة الكتابة
+        .retryOnConnectionFailure(true)    .build()
 
     val moviesRetrofit: Retrofit by lazy {
         Retrofit.Builder()

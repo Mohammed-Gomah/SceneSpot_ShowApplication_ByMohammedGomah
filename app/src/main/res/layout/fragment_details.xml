@@ -31,6 +31,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/clDetailsBackArrow"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
                         android:layout_marginStart="16dp">
@@ -43,7 +44,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="6dp"
+                            android:padding="8dp"
                             android:src="@drawable/back_arrow" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -65,9 +66,10 @@
                             android:background="@drawable/toggle_bg" />
 
                         <ImageView
+                            android:id="@+id/ivDetailsBookmark"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:src="@drawable/bookmark"
                             app:tint="@color/white" />
 
@@ -86,6 +88,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvDetailsSeriesName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="70dp"
@@ -121,6 +124,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/network"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -141,6 +145,7 @@
                         android:src="@drawable/start_2" />
 
                     <TextView
+                        android:id="@+id/tvDetailsStartTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="1dp"
@@ -155,6 +160,7 @@
                         android:src="@drawable/end" />
 
                     <TextView
+                        android:id="@+id/tvDetailsEndTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="1dp"
@@ -182,6 +188,7 @@
                     android:src="@drawable/camera_placeholder" />
 
                 <TextView
+                    android:id="@+id/tvDetailsGenres"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -196,6 +203,7 @@
                     android:src="@drawable/star" />
 
                 <TextView
+                    android:id="@+id/tvDetailsRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="IMDB 9.3"
@@ -203,6 +211,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/txtAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -213,6 +222,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvDetailsDescriptions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -221,15 +231,57 @@
                 android:text="When chemistry teacher Walter White is diagnosed with Stage III cancer and given only two years to live, he decides he has nothing to lose. He lives with his teenage son, who has cerebral palsy, and his wife, in New Mexico. Determined to ensure that his family will have a secure future, Walt embarks on a career of drugs and crime. He proves to be remarkably proficient in this new world as he begins manufacturing and selling methamphetamine with one of his former students. The series tracks the impacts of a fatal diagnosis on a regular, hard working man, and explores how a fatal diagnosis affects his morality and transforms him into a major player of the drug trade."
                 android:textColor="@color/gray"
                 android:textSize="14sp" />
-            <TextView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:text="Seasons"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDetailsSeeAllSeasons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="see all"
+                    android:textColor="@color/orange" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDetailsSeasons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/movies_item" />
+
+                <ProgressBar
+                    android:id="@+id/pbDetailsSeasons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

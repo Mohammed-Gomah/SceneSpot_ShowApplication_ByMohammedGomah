@@ -2,6 +2,7 @@ package com.example.scenespotnersion2.main.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
@@ -33,6 +34,11 @@ class SeriesAdapter(private var seriesList: List<SeriesDBItem?>) :
                     .placeholder(R.drawable.series_placeholder)
                     .centerCrop()
                     .into(binding.ivMovieItemImage)
+
+                binding.showItem.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(series!!)
+                    itemView.findNavController().navigate(action)
+                }
             }
         }
     }

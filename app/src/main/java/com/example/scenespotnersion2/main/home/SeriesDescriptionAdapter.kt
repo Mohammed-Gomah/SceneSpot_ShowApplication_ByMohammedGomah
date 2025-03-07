@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.parseAsHtml
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
@@ -47,6 +48,11 @@ class SeriesDescriptionAdapter(private var seriesList: List<SeriesDBItem?>) :
             binding.btnWatchTrailer.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse((series?.officialSite)))
                 itemView.context.startActivity(intent)
+            }
+
+            binding.ivDescriptionItemImage.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(series!!)
+                itemView.findNavController().navigate(action)
             }
 
             Glide.with(holder.itemView.context)
