@@ -114,6 +114,23 @@
                     android:id="@+id/wvDetailsTrailer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/ivDetailsVideoPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/movies_placeholder" />
+
+                <TextView
+                    android:id="@+id/tvDetailsVideoPlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="معلش يقلبي اصبر السيرفر بضان الفيديو هيحمل دلوقت"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -197,8 +214,8 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_marginEnd="2dp"
                     android:src="@drawable/star" />
 
@@ -207,6 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="IMDB 9.3"
+                    android:textSize="12sp"
                     android:textColor="@color/orange" />
             </LinearLayout>
 
@@ -247,7 +265,7 @@
                 android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvDetailsSeeAllSeasons"
+                    android:id="@+id/tvDetailsSeeAllCas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="see all"
@@ -282,6 +300,66 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/tvCast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cast"
+                    android:textColor="@color/orange"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCrew"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=" - Crew"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCastCrew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/cast_item" />
+
+                <ProgressBar
+                    android:id="@+id/pbCastCrew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

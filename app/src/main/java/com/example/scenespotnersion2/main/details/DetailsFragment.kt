@@ -2,7 +2,6 @@ package com.example.scenespotnersion2.main.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.databinding.FragmentDetailsBinding
 import com.example.scenespotnersion2.remote.data.SeriesDBItem
 
@@ -20,6 +20,8 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val detailsViewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
+    private lateinit var seasonsAdapter: DetailsSeasonsAdapter
+    private lateinit var castAdapter: CastAdapter
 
 
     override fun onCreateView(
@@ -33,12 +35,20 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val seriesItem = args.seriesItem
         setupDetails(seriesItem)
-        val seriesImdb = seriesItem.externals?.imdb
-        Log.e("DetailsFragment", "onViewCreated:$seriesImdb ")
-        seriesImdb?.let { initWebView(it) }
+        setupAdapters()
+
+        seriesItem.id?.let { observeCastByShowId(it) }
+        seriesItem.externals?.imdb?.let { initWebView(it) }
+        seriesItem.id?.let { getSeriesById(it) }
+
+        binding.clDetailsBackArrow.setOnClickListener {
+            this@DetailsFragment.findNavController().popBackStack()
+        }
     }
+
 
     private fun setupDetails(seriesItem: SeriesDBItem) {
         binding.apply {
@@ -46,28 +56,62 @@ class DetailsFragment : Fragment() {
             tvDetailsStartTime.text = seriesItem.premiered
             tvDetailsGenres.text = seriesItem.genres?.joinToString(" • ")
             tvDetailsEndTime.text = seriesItem.ended
-            tvDetailsRating.text = seriesItem.rating?.average.toString()
+            ("IMDB ${seriesItem.rating?.average.toString()}").also { tvDetailsRating.text = it }
             tvDetailsDescriptions.text =
                 seriesItem.summary?.parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY).toString().trim()
             "PRODUCED BY ${seriesItem.network?.name}".also { network.text = it }
             clDetailsBackArrow.setOnClickListener {
                 this@DetailsFragment.findNavController().popBackStack()
             }
-                       
         }
+    }
 
+    private fun observeCastByShowId(showId: Int) {
+        binding.pbCastCrew.visibility = View.VISIBLE
+        detailsViewModel.cast.observe(viewLifecycleOwner) { cast ->
+            binding.pbCastCrew.visibility = View.GONE
+            castAdapter.setCast(cast)
+        }
+        detailsViewModel.getCastByShowId(showId)
+    }
+
+    private fun getSeriesById(seriesId: Int) {
+        binding.pbDetailsSeasons.visibility = View.VISIBLE
+        detailsViewModel.seasons.observe(viewLifecycleOwner) { seriesSeasons ->
+            binding.pbDetailsSeasons.visibility = View.GONE
+            seasonsAdapter.setSeasons(seriesSeasons)
+        }
+        detailsViewModel.retrieveGetShowSeasonsById(seriesId)
     }
 
 
-    
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView(seriesImdb: String) {
         detailsViewModel.retrieveGetSeriesByImdb(seriesImdb)
+        binding.ivDetailsVideoPlaceholder.visibility = View.VISIBLE
+        binding.tvDetailsVideoPlaceholder.visibility = View.VISIBLE
         detailsViewModel.seriesDetails.observe(viewLifecycleOwner) { series ->
+            binding.ivDetailsVideoPlaceholder.visibility = View.GONE
+            binding.tvDetailsVideoPlaceholder.visibility = View.GONE
             binding.wvDetailsTrailer.settings.javaScriptEnabled = true
             binding.wvDetailsTrailer.settings.domStorageEnabled = true
             series?.trailer?.let { binding.wvDetailsTrailer.loadUrl(it) }
-            Log.e("DetailsFragment", "initWebView: ${series?.trailer}")
+        }
+    }
+
+    private fun setupAdapters() {
+        seasonsAdapter = DetailsSeasonsAdapter(listOf())
+        binding.rvDetailsSeasons.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = seasonsAdapter
+        }
+
+        castAdapter = CastAdapter(listOf())
+        binding.rvCastCrew.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = castAdapter
         }
     }
 

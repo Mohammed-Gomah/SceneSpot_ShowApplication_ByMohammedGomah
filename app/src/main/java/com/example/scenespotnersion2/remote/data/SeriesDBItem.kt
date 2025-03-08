@@ -45,6 +45,8 @@ data class SeriesDBItem(
     val summary: String? = "",
     @SerializedName("type")
     val type: String? = "",
+    @SerializedName("airdate")
+    val airdate: String? = "",
     @SerializedName("updated")
     val updated: Int? = 0,
     @SerializedName("url")
