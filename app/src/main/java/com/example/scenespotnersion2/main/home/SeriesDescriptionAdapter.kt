@@ -58,14 +58,12 @@ class SeriesDescriptionAdapter(private var seriesList: List<SeriesDBItem?>) :
             Glide.with(holder.itemView.context)
                 .load(series?.image?.medium)
                 .placeholder(R.drawable.series_placeholder)
-                .centerCrop()
                 .into(binding.ivDescriptionItemImage)
 
             Glide.with(holder.itemView.context)
-                .load(series?.image?.original)
+                .load(series?.image?.medium)
+                .transform(BlurTransformation(15,3))
                 .placeholder(R.drawable.series_placeholder)
-                .transform(BlurTransformation(1000, 100))
-                .centerCrop()
                 .into(binding.ivDescriptionItemBackgroundImage)
 
         }

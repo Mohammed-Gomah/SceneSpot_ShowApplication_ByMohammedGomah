@@ -1,4 +1,4 @@
-package com.example.scenespotnersion2.main.details.data
+package com.example.scenespotnersion2.remote.data.data
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.databinding.EpisodesItemBinding
-import com.example.scenespotnersion2.main.details.data.episodedata.EpisodeDBItem
+import com.example.scenespotnersion2.remote.data.data.episodedata.EpisodeDBItem
 
 class EpisodeAdapter(private var episodesList: List<EpisodeDBItem>) :
     RecyclerView.Adapter<EpisodeAdapter.ItemViewHolder>() {

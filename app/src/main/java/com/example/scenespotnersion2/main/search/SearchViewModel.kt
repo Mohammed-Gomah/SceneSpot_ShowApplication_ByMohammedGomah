@@ -22,7 +22,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             viewModelScope.launch {
                 val response = repository.seriesApiService.searchSeriesByName(showName)
                 if (response.isSuccessful){
-                    _searchList.postValue(response.body()?.filterNotNull()?: emptyList())
+                    _searchList.postValue(response.body()?.map { it.show })
                 }else{
                     Log.e(TAG, "searchSeriesByName: ${response.body()} " )
                 }

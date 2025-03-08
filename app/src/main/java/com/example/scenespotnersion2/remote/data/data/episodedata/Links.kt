@@ -1,7 +1,7 @@
 package com.example.scenespotnersion2.main.details.data.episodesepisodedata
 
 
-import com.example.scenespotnersion2.main.details.data.episodedata.Self
+import com.example.scenespotnersion2.remote.data.data.episodedata.Self
 import com.google.gson.annotations.SerializedName
 
 data class Links(

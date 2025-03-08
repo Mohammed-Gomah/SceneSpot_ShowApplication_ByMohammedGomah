@@ -78,7 +78,11 @@
         android:id="@+id/seasonFragment"
         android:name="com.example.scenespotnersion2.main.details.SeasonFragment"
         android:label="fragment_season"
-        tools:layout="@layout/fragment_season" />
+        tools:layout="@layout/fragment_season" >
+        <argument
+            android:name="seriesId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/episodeFragment"
         android:name="com.example.scenespotnersion2.main.details.EpisodeFragment"

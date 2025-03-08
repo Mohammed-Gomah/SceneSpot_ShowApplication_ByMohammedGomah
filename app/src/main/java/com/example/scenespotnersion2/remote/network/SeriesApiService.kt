@@ -1,9 +1,10 @@
 package com.example.scenespotnersion2.remote.network
 
-import com.example.scenespotnersion2.main.details.data.episodedata.EpisodeDB
+import com.example.scenespotnersion2.remote.data.data.episodedata.EpisodeDB
 import com.example.scenespotnersion2.remote.data.CastDB
 import com.example.scenespotnersion2.remote.data.SeasonDB
 import com.example.scenespotnersion2.remote.data.SeriesDB
+import com.example.scenespotnersion2.remote.data.SeriesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,7 +24,7 @@ interface SeriesApiService {
     @GET("shows/{showId}/cast")
     suspend fun fetchCastByShowId(@Path("showId") showId: Int): Response<CastDB>
 
-    @GET("shows?")
-    suspend fun searchSeriesByName(@Query("q") showName : String) : Response<SeriesDB>
+    @GET("search/shows")
+    suspend fun searchSeriesByName(@Query("q") showName : String) : Response<List<SeriesResponse>>
 
 }

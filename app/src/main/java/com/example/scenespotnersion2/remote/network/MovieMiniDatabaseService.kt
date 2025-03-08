@@ -1,6 +1,6 @@
 package com.example.scenespotnersion2.remote.network
 
-import com.example.scenespotnersion2.main.details.data.DetailsDB
+import com.example.scenespotnersion2.remote.data.data.DetailsDB
 import com.example.scenespotnersion2.remote.data.MovieDB
 import com.example.scenespotnersion2.remote.data.MovieResponse
 import com.example.scenespotnersion2.remote.data.PopularityDB

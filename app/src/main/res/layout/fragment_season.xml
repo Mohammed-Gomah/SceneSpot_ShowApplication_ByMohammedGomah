@@ -75,13 +75,17 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSeasons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_gravity="center"
-            tools:listitem="@layout/movies_item"
+            tools:listitem="@layout/seasons_fragment_item"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
 
     </LinearLayout>
 

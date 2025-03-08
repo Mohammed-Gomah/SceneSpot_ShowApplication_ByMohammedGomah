@@ -1,4 +1,4 @@
-package com.example.scenespotnersion2.main.details.data.episodedata
+package com.example.scenespotnersion2.remote.data.data.episodedata
 
 
 import com.example.scenespotnersion2.main.details.data.episodesepisodedata.Image

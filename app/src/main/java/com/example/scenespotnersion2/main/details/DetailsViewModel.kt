@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.scenespotnersion2.main.details.data.Results
-import com.example.scenespotnersion2.main.details.data.episodedata.EpisodeDBItem
+import com.example.scenespotnersion2.remote.data.data.Results
+import com.example.scenespotnersion2.remote.data.data.episodedata.EpisodeDBItem
 import com.example.scenespotnersion2.remote.data.CastDBItem
 import com.example.scenespotnersion2.remote.data.SeasonDBItem
 import com.example.scenespotnersion2.remote.repository.MainRepository

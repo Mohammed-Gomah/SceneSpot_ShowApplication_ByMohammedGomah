@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.databinding.FragmentEpisodeBinding
-import com.example.scenespotnersion2.main.details.data.EpisodeAdapter
+import com.example.scenespotnersion2.remote.data.data.EpisodeAdapter
 
 class EpisodeFragment : Fragment() {
     private var _binding: FragmentEpisodeBinding? = null

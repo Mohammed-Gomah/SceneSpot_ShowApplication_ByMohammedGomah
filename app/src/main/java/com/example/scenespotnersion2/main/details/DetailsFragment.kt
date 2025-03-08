@@ -38,14 +38,26 @@ class DetailsFragment : Fragment() {
 
         val seriesItem = args.seriesItem
         setupDetails(seriesItem)
+        initButtons(seriesItem)
         setupAdapters()
 
         seriesItem.id?.let { observeCastByShowId(it) }
         seriesItem.externals?.imdb?.let { initWebView(it) }
-        seriesItem.id?.let { getSeriesById(it) }
+        seriesItem.id?.let { getSeasonsById(it) }
 
         binding.clDetailsBackArrow.setOnClickListener {
             this@DetailsFragment.findNavController().popBackStack()
+        }
+    }
+
+    private fun initButtons(series: SeriesDBItem) {
+        binding.tvDetailsSeeAllSeasons.setOnClickListener {
+            val action = series.id?.let {
+                DetailsFragmentDirections.actionDetailsFragmentToSeasonFragment(
+                    it
+                )
+            }
+            this@DetailsFragment.findNavController().navigate(action!!)
         }
     }
 
@@ -75,7 +87,7 @@ class DetailsFragment : Fragment() {
         detailsViewModel.getCastByShowId(showId)
     }
 
-    private fun getSeriesById(seriesId: Int) {
+    private fun getSeasonsById(seriesId: Int) {
         binding.pbDetailsSeasons.visibility = View.VISIBLE
         detailsViewModel.seasons.observe(viewLifecycleOwner) { seriesSeasons ->
             binding.pbDetailsSeasons.visibility = View.GONE

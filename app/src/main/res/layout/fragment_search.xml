@@ -71,15 +71,15 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/svSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/searchview_bg"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@null"
-        android:queryHint="Search a series" />
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:queryHint="search" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
