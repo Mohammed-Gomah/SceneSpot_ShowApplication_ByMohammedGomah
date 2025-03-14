@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.databinding.SearchItemBinding
 import com.example.scenespotnersion2.remote.data.SeriesDBItem
+import com.google.firebase.database.FirebaseDatabase
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 class SearchAdapter(private var searchList: List<SeriesDBItem>) :
@@ -29,18 +30,22 @@ class SearchAdapter(private var searchList: List<SeriesDBItem>) :
         holder.apply {
             binding.apply {
                 tvSearchSeriesName.text = searchItem.name
-                tvSearchRunTime.text = searchItem.runtime.toString()
-                ("Episode Runtime : ${searchItem.rating?.average}").also { tvRating.text = it }
+                "Runtime : ${searchItem.runtime.toString()} minute".also { tvSearchRunTime.text = it }
+                ("IMDB ${searchItem.rating?.average}").also { tvRating.text = it }
 
                 Glide.with(itemView.context)
                     .load(searchItem.image?.medium)
-                    .transform(BlurTransformation(15,3))
+                    .transform(BlurTransformation(5,3))
                     .into(ivSearchImageBackground)
 
                 Glide.with(itemView.context)
                     .load(searchItem.image?.medium)
                     .placeholder(R.drawable.series_placeholder)
                     .into(ivSearchSeriesImage)
+
+                ivSearchBookMark.setOnClickListener {
+
+                }
             }
         }
     }

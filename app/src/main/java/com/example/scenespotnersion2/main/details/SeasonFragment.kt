@@ -47,10 +47,10 @@ class SeasonFragment : Fragment() {
 
     private fun setupAdapters() {
         seasonsAdapter = SeasonsAdapter(emptyList())
-        val seasonlayoutManager =
+        val layoutManager =
             GridLayoutManager(requireContext(), 2)
         binding.rvSeasons.apply {
-            this.layoutManager = seasonlayoutManager
+            this.layoutManager = layoutManager
             adapter = seasonsAdapter
         }
     }

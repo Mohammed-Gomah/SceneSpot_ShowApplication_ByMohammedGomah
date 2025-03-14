@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.databinding.FragmentEpisodeBinding
@@ -35,6 +36,9 @@ class EpisodeFragment : Fragment() {
         Log.e(TAG, "onViewCreated: $seriesId", )
         observeEpisodes(seriesId)
         setupAdapters()
+        binding.clProfileBackArrow.setOnClickListener {
+            this@EpisodeFragment.findNavController().popBackStack()
+        }
     }
 
     private fun observeEpisodes(seriesId: Int) {

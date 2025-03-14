@@ -113,4 +113,8 @@ dependencies {
     //for glide effect like blur
     implementation ("jp.wasabeef:glide-transformations:4.3.0")
 
+    // swipe refresh layout
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+
 }

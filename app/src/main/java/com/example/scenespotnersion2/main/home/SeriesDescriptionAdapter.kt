@@ -55,6 +55,9 @@ class SeriesDescriptionAdapter(private var seriesList: List<SeriesDBItem?>) :
                 itemView.findNavController().navigate(action)
             }
 
+
+
+
             Glide.with(holder.itemView.context)
                 .load(series?.image?.medium)
                 .placeholder(R.drawable.series_placeholder)
@@ -62,7 +65,7 @@ class SeriesDescriptionAdapter(private var seriesList: List<SeriesDBItem?>) :
 
             Glide.with(holder.itemView.context)
                 .load(series?.image?.medium)
-                .transform(BlurTransformation(15,3))
+                .transform(BlurTransformation(5,3))
                 .placeholder(R.drawable.series_placeholder)
                 .into(binding.ivDescriptionItemBackgroundImage)
 

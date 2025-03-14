@@ -13,16 +13,20 @@
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"
-            app:enterAnim="@android:anim/fade_in"
+            app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_homeFragment_to_seasonFragment"
             app:destination="@id/seasonFragment" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/fade_out"  />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -35,9 +39,9 @@
         <action
             android:id="@+id/action_detailsFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:enterAnim="@android:anim/fade_in"
+            app:enterAnim="@anim/fui_slide_in_right"
             app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@anim/fui_slide_in_right"
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_detailsFragment_to_seasonFragment"
@@ -63,6 +67,10 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/fade_out"
             app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
@@ -72,6 +80,10 @@
         tools:layout="@layout/fragment_edit_profile" >
         <action
             android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/fui_slide_in_right"
+            app:popExitAnim="@android:anim/fade_out"
             app:destination="@id/profileFragment" />
     </fragment>
     <fragment

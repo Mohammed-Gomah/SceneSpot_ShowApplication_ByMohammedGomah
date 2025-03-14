@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.databinding.FragmentHomeBinding
+import com.example.scenespotnersion2.main.favourites.FavouritesViewModel
 import com.example.scenespotnersion2.main.profile.ProfileViewModel
 
 class HomeFragment : Fragment() {
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var moviesAdapter: MoviesAdapter
     private lateinit var seriesAdapter: SeriesAdapter
+    private val favouritesViewModel: FavouritesViewModel by viewModels()
     private lateinit var seriesDescriptionAdapter: SeriesDescriptionAdapter
 
 
@@ -39,7 +41,36 @@ class HomeFragment : Fragment() {
         init()
     }
 
+    private fun refreshData() {
+        binding.pbMovies.visibility = View.VISIBLE
+        binding.pbSeries.visibility = View.VISIBLE
+        binding.pbDescription.visibility = View.VISIBLE
+
+        homeViewModel.fetchAllMoviesIMDB()
+        homeViewModel.fetchAllSeries()
+        homeViewModel.fetchAllSeriesWithDescription()
+
+        homeViewModel.movies.observe(viewLifecycleOwner) { movies ->
+            binding.pbMovies.visibility = View.GONE
+            moviesAdapter.setMovies(movies)
+        }
+
+        homeViewModel.series.observe(viewLifecycleOwner) { series ->
+            binding.pbSeries.visibility = View.GONE
+            seriesAdapter.setSeries(series)
+        }
+
+        homeViewModel.seriesDescription.observe(viewLifecycleOwner) { series ->
+            binding.pbDescription.visibility = View.GONE
+            seriesDescriptionAdapter.setSeries(series)
+        }
+
+        // إيقاف علامة التحميل بعد انتهاء التحديث
+    }
+
+
     private fun observeData() {
+        refreshData()
         binding.pbMovies.visibility = View.VISIBLE
         homeViewModel.movies.observe(viewLifecycleOwner) { movies ->
             binding.pbMovies.visibility = View.GONE
@@ -71,7 +102,7 @@ class HomeFragment : Fragment() {
             adapter = moviesAdapter
         }
 
-        seriesAdapter = SeriesAdapter(emptyList())
+        seriesAdapter = SeriesAdapter(emptyList(),favouritesViewModel)
         val seriesLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvSeries.apply {

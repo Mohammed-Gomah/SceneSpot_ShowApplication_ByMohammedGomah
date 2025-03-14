@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.databinding.FragmentDetailsBinding
 import com.example.scenespotnersion2.remote.data.SeriesDBItem
 
@@ -39,8 +40,10 @@ class DetailsFragment : Fragment() {
         val seriesItem = args.seriesItem
         setupDetails(seriesItem)
         initButtons(seriesItem)
+        setupBookmarkToggle()
         setupAdapters()
 
+        seriesItem.id?.let { detailsViewModel.checkIfBookmarked(it) }
         seriesItem.id?.let { observeCastByShowId(it) }
         seriesItem.externals?.imdb?.let { initWebView(it) }
         seriesItem.id?.let { getSeasonsById(it) }
@@ -59,6 +62,8 @@ class DetailsFragment : Fragment() {
             }
             this@DetailsFragment.findNavController().navigate(action!!)
         }
+
+
     }
 
 
@@ -75,6 +80,25 @@ class DetailsFragment : Fragment() {
             clDetailsBackArrow.setOnClickListener {
                 this@DetailsFragment.findNavController().popBackStack()
             }
+            binding.ivDetailsBookmark.setOnClickListener {
+                val currentState = detailsViewModel.bookmarkToggleState.value ?: false
+                if (currentState) {
+                    detailsViewModel.removeFromFirebase(seriesItem)
+                } else {
+                    detailsViewModel.sendToFirebase(seriesItem)
+                }
+            }
+
+        }
+    }
+
+    private fun setupBookmarkToggle(){
+        detailsViewModel.bookmarkToggleState.observe(viewLifecycleOwner){isBookmarked->
+            binding.ivDetailsBookmark.setColorFilter(
+                requireContext().getColor(
+                    if (isBookmarked) R.color.orange else R.color.white
+                )
+            )
         }
     }
 

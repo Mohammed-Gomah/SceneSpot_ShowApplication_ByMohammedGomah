@@ -6,17 +6,24 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.scenespotnersion2.remote.data.data.Results
-import com.example.scenespotnersion2.remote.data.data.episodedata.EpisodeDBItem
 import com.example.scenespotnersion2.remote.data.CastDBItem
 import com.example.scenespotnersion2.remote.data.SeasonDBItem
+import com.example.scenespotnersion2.remote.data.SeriesDBItem
+import com.example.scenespotnersion2.remote.data.data.Results
+import com.example.scenespotnersion2.remote.data.data.episodedata.EpisodeDBItem
 import com.example.scenespotnersion2.remote.repository.MainRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
 class DetailsViewModel(application: Application) : AndroidViewModel(application) {
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
+    private val firebaseRef =
+        userId?.let { FirebaseDatabase.getInstance().getReference("favourites").child(it) }
+
     private val repository = MainRepository()
 
     private var _seriesDetails = MutableLiveData<Results?>()
@@ -31,6 +38,33 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
     private var _cast = MutableLiveData<List<CastDBItem>>()
     val cast: LiveData<List<CastDBItem>> = _cast
+
+    private var _bookmarkToggleState = MutableLiveData<Boolean>()
+    val bookmarkToggleState: LiveData<Boolean> = _bookmarkToggleState
+
+
+    fun sendToFirebase(show: SeriesDBItem) {
+        if (firebaseRef == null) return
+        firebaseRef.child(show.id.toString()).setValue(show)
+        _bookmarkToggleState.value = true
+    }
+
+    fun removeFromFirebase(show: SeriesDBItem) {
+        if (firebaseRef == null) return
+        firebaseRef.child(show.id.toString()).removeValue()
+        _bookmarkToggleState.value = false
+    }
+
+    fun checkIfBookmarked(showId: Int) {
+        if (firebaseRef == null) return
+        firebaseRef.child(showId.toString()).get().addOnSuccessListener { snapshot ->
+            _bookmarkToggleState.value =
+                snapshot.exists()  // إذا كان العنصر موجودًا في Firebase، فإنه مضاف للإشارات المرجعية
+        }.addOnFailureListener {
+            Log.e(TAG, "Failed to check bookmark state: ${it.message}")
+        }
+    }
+
 
     fun retrieveGetSeriesByImdb(seriesId: String) {
         viewModelScope.launch {
@@ -70,7 +104,6 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 val response = repository.seriesApiService.fetchShowSeasonEpisodesListById(showId)
-                Log.e(TAG, "fetchShowSeasonEpisodesListById: ${response.body()?.filterNotNull()}")
                 if (response.isSuccessful) {
                     _episodes.postValue(response.body()?.filterNotNull())
                 }
