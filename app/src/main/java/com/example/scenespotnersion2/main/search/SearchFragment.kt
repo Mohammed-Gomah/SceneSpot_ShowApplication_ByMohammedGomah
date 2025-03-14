@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.databinding.FragmentSearchBinding
 
@@ -30,16 +31,17 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupAdapters()
         setupSearch()
+        binding.clProfileBackArrow.setOnClickListener {
+            this@SearchFragment.findNavController().popBackStack()
+        }
     }
 
     private fun observeSearch(showName: String) {
         searchViewModel.searchSeriesByName(showName)
-        binding.tvTextWaiting.visibility = View.VISIBLE
-        binding.cameraImageWaiting.visibility = View.VISIBLE
+        updateUI(isLoading = true)
         searchViewModel.seriesList.observe(viewLifecycleOwner) { searchList ->
-            binding.tvTextWaiting.visibility = View.GONE
-            binding.cameraImageWaiting.visibility = View.GONE
             searchAdapter.setSearchList(searchList)
+            updateUI(isLoading = searchList.isEmpty())
         }
     }
 
@@ -53,12 +55,23 @@ class SearchFragment : Fragment() {
                 if (!newText.isNullOrEmpty()) {
                     observeSearch(newText)
                 } else {
-                    binding.tvTextWaiting.visibility = View.VISIBLE
-                    binding.cameraImageWaiting.visibility = View.VISIBLE
+                    searchAdapter.setSearchList(emptyList()) // مسح البيانات
+                    updateUI(isLoading = true)
                 }
                 return true
             }
         })
+    }
+    private fun updateUI(isLoading: Boolean) {
+        if (isLoading) {
+            binding.tvTextWaiting.visibility = View.VISIBLE
+            binding.cameraImageWaiting.visibility = View.VISIBLE
+            binding.rvSearch.visibility = View.GONE
+        } else {
+            binding.tvTextWaiting.visibility = View.GONE
+            binding.cameraImageWaiting.visibility = View.GONE
+            binding.rvSearch.visibility = View.VISIBLE
+        }
     }
 
     private fun setupAdapters() {
