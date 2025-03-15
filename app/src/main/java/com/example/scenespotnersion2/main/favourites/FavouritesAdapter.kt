@@ -3,6 +3,7 @@ package com.example.scenespotnersion2.main.favourites
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
@@ -29,7 +30,7 @@ class FavouritesAdapter(
                 "Runtime : ${favouriteItem.runtime} minute".also { tvSearchRunTime.text = it }
                 "IMDB : ${favouriteItem.rating?.average}".also { tvRating.text = it }
 
-                favouriteItem?.id?.let { showId ->
+                favouriteItem.id?.let { showId ->
                     favouritesViewModel.checkFavouriteState(showId.toString()) { isFavourite ->
                         val color = if (isFavourite) ContextCompat.getColor(
                             itemView.context,
@@ -56,6 +57,13 @@ class FavouritesAdapter(
                     .transform(BlurTransformation(5, 3))
                     .into(ivSearchImageBackground)
 
+                ivSearchSeriesImage.setOnClickListener {
+                    val action =
+                        FavouritesFragmentDirections.actionFavouritesFragmentToDetailsFragment(
+                            favouriteItem
+                        )
+                    itemView.findNavController().navigate(action)
+                }
             }
         }
 

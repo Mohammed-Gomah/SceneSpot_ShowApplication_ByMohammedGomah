@@ -3,15 +3,19 @@ package com.example.scenespotnersion2.main.search
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.databinding.SearchItemBinding
+import com.example.scenespotnersion2.main.favourites.FavouritesViewModel
 import com.example.scenespotnersion2.remote.data.SeriesDBItem
-import com.google.firebase.database.FirebaseDatabase
 import jp.wasabeef.glide.transformations.BlurTransformation
 
-class SearchAdapter(private var searchList: List<SeriesDBItem>) :
+class SearchAdapter(
+    private var searchList: List<SeriesDBItem>,
+    private val favouritesViewModel: FavouritesViewModel
+) :
     RecyclerView.Adapter<SearchAdapter.ItemViewHolder>() {
     inner class ItemViewHolder(val binding: SearchItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -43,8 +47,32 @@ class SearchAdapter(private var searchList: List<SeriesDBItem>) :
                     .placeholder(R.drawable.series_placeholder)
                     .into(ivSearchSeriesImage)
 
-                ivSearchBookMark.setOnClickListener {
+                favouritesViewModel.checkFavouriteState(searchItem.id.toString()) { ifBookmarked ->
+                    val color =
+                        if (ifBookmarked) itemView.context.getColor(R.color.orange) else itemView.context.getColor(
+                            R.color.white
+                        )
+                    binding.ivSearchBookMark.setColorFilter(color)
+                }
 
+                ivSearchBookMark.setOnClickListener {
+                    favouritesViewModel.toggleFavourite(searchItem) { ifBookmarked ->
+                        val color =
+                            if (ifBookmarked) {
+                                itemView.context.getColor(R.color.orange)
+                            } else {
+                                itemView.context.getColor(
+                                    R.color.white
+                                )
+                            }
+                        binding.ivSearchBookMark.setColorFilter(color)
+                    }
+                }
+
+                ivSearchSeriesImage.setOnClickListener {
+                    val action =
+                        SearchFragmentDirections.actionSearchFragmentToDetailsFragment(searchItem)
+                    itemView.findNavController().navigate(action)
                 }
             }
         }

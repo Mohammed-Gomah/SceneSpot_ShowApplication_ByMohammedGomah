@@ -10,13 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scenespotnersion2.databinding.FragmentSearchBinding
+import com.example.scenespotnersion2.main.favourites.FavouritesViewModel
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var searchAdapter: SearchAdapter
-
+    private val favouritesViewModel : FavouritesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +76,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupAdapters() {
-        searchAdapter = SearchAdapter(listOf())
+        searchAdapter = SearchAdapter(listOf() , favouritesViewModel)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.rvSearch.apply {
             this.layoutManager = layoutManager
