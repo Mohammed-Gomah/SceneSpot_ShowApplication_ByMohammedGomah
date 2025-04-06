@@ -1,5 +1,6 @@
 package com.example.scenespotnersion2.main.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.scenespotnersion2.R
 import com.example.scenespotnersion2.auth.AuthViewModel
 import com.example.scenespotnersion2.databinding.FragmentProfileBinding
+import com.example.scenespotnersion2.ui.AuthActivity
 import com.google.firebase.database.FirebaseDatabase
 
 class ProfileFragment : Fragment() {
@@ -57,9 +59,13 @@ class ProfileFragment : Fragment() {
         binding.apply {
             tvLogout.setOnClickListener {
                 authViewModel.logout()
+                val intent = Intent(requireContext(),AuthActivity::class.java)
+                requireContext().startActivity(intent)
             }
             ivLogout.setOnClickListener {
                 authViewModel.logout()
+                val intent = Intent(requireContext(),AuthActivity::class.java)
+                requireContext().startActivity(intent)
             }
         }
 

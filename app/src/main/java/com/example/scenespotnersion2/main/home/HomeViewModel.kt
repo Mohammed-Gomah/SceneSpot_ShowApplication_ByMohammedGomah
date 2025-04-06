@@ -85,7 +85,7 @@ private var _seriesDescription = MutableLiveData<List<SeriesDBItem>>()
         if (_movies.value.isNullOrEmpty()) {
 
             try {
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch() {
                     val response = repository.moviesApiService.getMoviesOrderedByPopularity()
                     if (response.isSuccessful) {
                         val moviesList = response.body()?.results ?: emptyList()

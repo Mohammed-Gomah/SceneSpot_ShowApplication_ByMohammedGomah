@@ -2,23 +2,27 @@ package com.example.scenespotnersion2.auth
 
 import android.app.Application
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
+import androidx.credentials.GetCredentialRequest
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.scenespotnersion2.R
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private val auth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseRef = FirebaseDatabase.getInstance().getReference("users")
-    private val storageRef = FirebaseStorage.getInstance().getReference("images").child(System.currentTimeMillis().toString())
+
+
+
+
 
     private val _authState = MutableLiveData<FirebaseUser?>()
     val authState: LiveData<FirebaseUser?> get() = _authState
@@ -31,7 +35,21 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         checkIfLoggedIn()
+
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(true)
+            .setServerClientId(application.getString(com.firebase.ui.auth.R.string.default_web_client_id))
+            .build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
     }
+
+
+    fun setupSignInWithGoogle(){}
+
 
     fun login(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
