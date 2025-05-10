@@ -25,33 +25,33 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.homeFragment -> {
-                    findNavController(R.id.fragmentContainerView).navigate(R.id.homeFragment, null, NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
-                    )
-                    true
-                }
-
-                R.id.favouritesFragment -> {
-                    findNavController(R.id.fragmentContainerView).navigate(R.id.favouritesFragment)
-                    true
-                }
-
-                R.id.profileFragment -> {
-                    findNavController(R.id.fragmentContainerView).navigate(R.id.profileFragment)
-                    true
-                }
-
-                R.id.searchFragment -> {
-                    findNavController(R.id.fragmentContainerView).navigate(R.id.searchFragment)
-                    true
-                }
-
-                else -> false
-            }
-    }
-
+//        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.homeFragment -> {
+//                    findNavController(R.id.fragmentContainerView).navigate(R.id.homeFragment, null, NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
+//                    )
+//                    true
+//                }
+//
+//                R.id.favouritesFragment -> {
+//                    findNavController(R.id.fragmentContainerView).navigate(R.id.favouritesFragment)
+//                    true
+//                }
+//
+//                R.id.profileFragment -> {
+//                    findNavController(R.id.fragmentContainerView).navigate(R.id.profileFragment)
+//                    true
+//                }
+//
+//                R.id.searchFragment -> {
+//                    findNavController(R.id.fragmentContainerView).navigate(R.id.searchFragment)
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//    }
+//
 
     }
 }

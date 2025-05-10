@@ -1,25 +1,21 @@
+package com.example.scenespotnersion2.auth
+
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.activity.result.IntentSenderRequest
 import com.example.scenespotnersion2.R
-import com.example.scenespotnersion2.auth.AuthViewModel
 import com.example.scenespotnersion2.databinding.FragmentLoginBinding
 import com.example.scenespotnersion2.ui.MainActivity
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 
 class LoginFragment : Fragment() {
@@ -44,65 +40,63 @@ class LoginFragment : Fragment() {
         auth = Firebase.auth
         oneTapClient = Identity.getSignInClient(requireContext())
 
+        // ✅ تحقق من وجود الإنترنت
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            findNavController().navigate(R.id.noInternetFragment)
+            return
+        }
+
         observeLogin()
         initButtons()
+        setupLogin()
     }
 
     private fun initButtons() {
+        binding.tvRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+        binding.tvResetPasswordButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    private fun setupLogin() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etLoginEmail.text.toString().trim()
             val password = binding.etLoginPassword.text.toString()
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "يرجى ملء جميع الحقول", Toast.LENGTH_SHORT).show()
+                showToast("Please Fill All Fields")
             } else {
                 authViewModel.login(email, password)
+
             }
         }
-
-        binding.tvRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-
-        binding.tvResetPasswordButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_sendResetPasswordFragment)
-        }
-
-
-    }
-
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        navigateToNextScreen(currentUser?.displayName)
     }
 
     private fun observeLogin() {
         authViewModel.authState.observe(viewLifecycleOwner) { user ->
-            user?.let {
-                navigateToNextScreen(it.displayName)
+            if (user != null) {
+                if (!user.displayName.isNullOrEmpty()) {
+                    Intent(requireContext(), MainActivity::class.java).also { startActivity(it) }
+                    requireActivity().finish()
+                } else {
+                    findNavController().navigate(R.id.action_loginFragment_to_setUsernameFragment)
+                }
             }
         }
 
         authViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            showToast(message)
         }
     }
 
-    private fun navigateToNextScreen(displayName: String?) {
-        if (displayName.isNullOrEmpty()) {
-            findNavController().navigate(R.id.action_loginFragment_to_setUsernameFragment)
-        } else {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
-        }
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

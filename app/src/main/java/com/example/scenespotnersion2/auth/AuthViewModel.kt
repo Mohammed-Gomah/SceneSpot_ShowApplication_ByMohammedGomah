@@ -3,12 +3,9 @@ package com.example.scenespotnersion2.auth
 import android.app.Application
 import android.net.Uri
 import android.widget.Toast
-import androidx.credentials.GetCredentialRequest
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.scenespotnersion2.R
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
@@ -36,19 +33,18 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     init {
         checkIfLoggedIn()
 
-        val googleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
-            .setServerClientId(application.getString(com.firebase.ui.auth.R.string.default_web_client_id))
-            .build()
-
-        val request = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
-            .build()
+//        val googleIdOption = GetGoogleIdOption.Builder()
+//            .setFilterByAuthorizedAccounts(true)
+//            .setServerClientId(application.getString(com.firebase.ui.auth.R.string.default_web_client_id))
+//            .build()
+//
+//        val request = GetCredentialRequest.Builder()
+//            .addCredentialOption(googleIdOption)
+//            .build()
 
     }
 
 
-    fun setupSignInWithGoogle(){}
 
 
     fun login(email: String, password: String) {

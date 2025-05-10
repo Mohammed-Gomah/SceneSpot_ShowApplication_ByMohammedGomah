@@ -72,7 +72,7 @@ private var _seriesDescription = MutableLiveData<List<SeriesDBItem>>()
         if (!movies.isNullOrEmpty()) {
             movies.let { _movies.value = it.shuffled().shuffled() } // بدلاً من `postValue`
         }
-        if (series.isNotEmpty()) {
+        if (!series.isNotEmpty()) {
             _series.value = series.shuffled()
         }
 //        loadMoviesFromSharedPref()?.let {
